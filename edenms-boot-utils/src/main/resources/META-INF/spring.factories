@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.eden.msutils.boot.EdenBootAutoConfiguration
+
