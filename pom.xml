@@ -15,6 +15,7 @@
         <module>edenms-core</module>
         <module>edenms-security-starter</module>
         <module>edenms-cache-starter</module>
+        <module>edenms-mybatis</module>
     </modules>
 
 

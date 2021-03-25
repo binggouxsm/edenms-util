@@ -69,36 +69,39 @@
 
 
             <!--  持久化 Starter -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-core</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-annotation</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
+
+
+            <!--  由于Mybatis-Plus 不支持复合主键，更加适合于 三高体系下的数据库设计模式， 放弃之换用tkmapper -->
+            <!--<dependency>-->
+                <!--<groupId>com.baomidou</groupId>-->
+                <!--<artifactId>mybatis-plus-boot-starter</artifactId>-->
+                <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>com.baomidou</groupId>-->
+                <!--<artifactId>mybatis-plus</artifactId>-->
+                <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>com.baomidou</groupId>-->
+                <!--<artifactId>mybatis-plus-core</artifactId>-->
+                <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>com.baomidou</groupId>-->
+                <!--<artifactId>mybatis-plus-extension</artifactId>-->
+                <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>com.baomidou</groupId>-->
+                <!--<artifactId>mybatis-plus-annotation</artifactId>-->
+                <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>com.baomidou</groupId>-->
+                <!--<artifactId>mybatis-plus-generator</artifactId>-->
+                <!--<version>${mybatisplus.version}</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
@@ -176,10 +179,36 @@
                 <version>${lombok.version}</version>
             </dependency>
 
+            <!--  Log start -->
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
 
 
 
             <!-- Common start -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>2.13.3</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>cn.hutool</groupId>

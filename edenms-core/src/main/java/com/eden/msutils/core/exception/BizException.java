@@ -1,6 +1,6 @@
 package com.eden.msutils.core.exception;
 
-public class BizException extends RuntimeException {
+public class BizException extends Throwable {
 
     private int code;
 
