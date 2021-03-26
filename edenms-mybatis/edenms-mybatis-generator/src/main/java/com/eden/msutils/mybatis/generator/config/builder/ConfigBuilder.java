@@ -109,9 +109,10 @@ public class ConfigBuilder {
 
         List<TableInfo> tableInfoList = dataSourceConfig.getTableInfo(packageConfig.getTableModule(), strategyConfig.isSkipView());
         tableInfoList.forEach( ti -> {
-            dataSourceConfig.convertTableField(ti,strategyConfig,globalConfig);
-            ti.processTable(globalConfig,strategyConfig);
-            ti.handlePackage(globalConfig,packageConfig);
+            dataSourceConfig.convertTableField(ti, strategyConfig, globalConfig);
+            ti.processTable(globalConfig, strategyConfig);
+            ti.handlePackage(globalConfig, strategyConfig, packageConfig);
+
         });
 
         return tableInfoList;

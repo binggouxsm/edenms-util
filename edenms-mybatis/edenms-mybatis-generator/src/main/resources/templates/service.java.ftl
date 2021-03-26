@@ -1,8 +1,13 @@
 package ${package.Service};
 
 import ${package.Entity}.${entity};
+<#if diableServiceInterface>
+import ${package.Mapper}.${table.mapperName};
+import org.springframework.stereotype.Service;
+</#if>
+<#if superServiceClassPackage??>
 import ${superServiceClassPackage};
-
+</#if>
 /**
  * <p>
  * ${table.comment!} 服务类
@@ -11,10 +16,15 @@ import ${superServiceClassPackage};
  * @author ${author}
  * @since ${date}
  */
-<#if kotlin>
-interface ${table.serviceName} : ${superServiceClass}<${entity}>
-<#else>
-public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+<#if diableServiceInterface>
+ @Service
+ public class ${table.serviceName}<#if superServiceClass??> extends ${superServiceClass}<${table.mapperName}, ${entity}></#if> {
 
-}
+ }
+<#else>
+ public interface ${table.serviceName}<#if superServiceClass??> extends ${superServiceClass}<${entity}></#if> {
+
+ }
 </#if>
+
+

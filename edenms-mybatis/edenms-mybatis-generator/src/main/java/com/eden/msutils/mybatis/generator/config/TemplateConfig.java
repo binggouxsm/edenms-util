@@ -30,10 +30,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class TemplateConfig {
 
-    @Getter(AccessLevel.NONE)
-    private String entity = ConstVal.TEMPLATE_ENTITY_JAVA;
 
-    private String entityKt = ConstVal.TEMPLATE_ENTITY_KT;
+    private String entity = ConstVal.TEMPLATE_ENTITY_JAVA;
 
     private String service = ConstVal.TEMPLATE_SERVICE;
 
@@ -45,10 +43,21 @@ public class TemplateConfig {
 
     private String controller = ConstVal.TEMPLATE_CONTROLLER;
 
-    public String getEntity(boolean kotlin) {
-        return kotlin ? entityKt : entity;
+
+    /**
+     *  只启用某个模板，其他禁用
+     * @param templateType
+     * @return
+     */
+    public void onlyEnable(TemplateType templateType) {
+        TemplateType[] types = TemplateType.values();
+        for (TemplateType type:types){
+            if(type != templateType){
+                disable(type);
+            }
+        }
     }
-    
+
     /**
      * 禁用模板
      *
@@ -64,7 +73,7 @@ public class TemplateConfig {
                         setXml(null);
                         break;
                     case ENTITY:
-                        setEntity(null).setEntityKt(null);
+                        setEntity(null);
                         break;
                     case MAPPER:
                         setMapper(null);

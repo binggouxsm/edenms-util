@@ -52,13 +52,14 @@ public interface ConstVal {
     String DOT = ".";
     String SLASH = "/";
     String BACK_SLASH = "\\";
+    String DASH = "-";
+
 
     String JAVA_SUFFIX = ".java";
     String KT_SUFFIX = ".kt";
     String XML_SUFFIX = ".xml";
 
     String TEMPLATE_ENTITY_JAVA = "/templates/entity.java";
-    String TEMPLATE_ENTITY_KT = "/templates/entity.kt";
     String TEMPLATE_MAPPER = "/templates/mapper.java";
     String TEMPLATE_XML = "/templates/mapper.xml";
     String TEMPLATE_SERVICE = "/templates/service.java";
@@ -68,9 +69,7 @@ public interface ConstVal {
     String VM_LOAD_PATH_KEY = "file.resource.loader.class";
     String VM_LOAD_PATH_VALUE = "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader";
 
-    String SUPER_MAPPER_CLASS = "com.baomidou.mybatisplus.core.mapper.BaseMapper";
-    String SUPER_SERVICE_CLASS = "com.baomidou.mybatisplus.extension.service.IService";
-    String SUPER_SERVICE_IMPL_CLASS = "com.baomidou.mybatisplus.extension.service.impl.ServiceImpl";
+
 
 
 }

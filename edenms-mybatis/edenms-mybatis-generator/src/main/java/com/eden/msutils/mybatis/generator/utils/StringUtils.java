@@ -103,6 +103,75 @@ public class StringUtils {
     }
 
     /**
+     * 驼峰转连字符
+     * <p>StringUtils.camelToHyphen( "managerAdminUserService" ) = manager-admin-user-service</p>
+     *
+     * @param input ignore
+     * @return 以'-'分隔
+     * @see <a href="https://github.com/krasa/StringManipulation">document</a>
+     */
+    public static String camelToHyphen(String input) {
+        return wordsToHyphenCase(wordsAndHyphenAndCamelToConstantCase(input));
+    }
+
+    private static String wordsToHyphenCase(String s) {
+        StringBuilder buf = new StringBuilder();
+        char lastChar = 'a';
+        for (char c : s.toCharArray()) {
+            if ((Character.isWhitespace(lastChar)) && (!Character.isWhitespace(c))
+                    && ('-' != c) && (buf.length() > 0)
+                    && (buf.charAt(buf.length() - 1) != '-')) {
+                buf.append(ConstVal.DASH);
+            }
+            if ('_' == c) {
+                buf.append('-');
+            } else if ('.' == c) {
+                buf.append('-');
+            } else if (!Character.isWhitespace(c)) {
+                buf.append(Character.toLowerCase(c));
+            }
+            lastChar = c;
+        }
+        if (Character.isWhitespace(lastChar)) {
+            buf.append(ConstVal.DASH);
+        }
+        return buf.toString();
+    }
+
+    private static String wordsAndHyphenAndCamelToConstantCase(String input) {
+        StringBuilder buf = new StringBuilder();
+        char previousChar = ' ';
+        char[] chars = input.toCharArray();
+        for (char c : chars) {
+            boolean isUpperCaseAndPreviousIsLowerCase = (Character.isLowerCase(previousChar)) && (Character.isUpperCase(c));
+
+            boolean previousIsWhitespace = Character.isWhitespace(previousChar);
+            boolean lastOneIsNotUnderscore = (buf.length() > 0) && (buf.charAt(buf.length() - 1) != '_');
+            boolean isNotUnderscore = c != '_';
+            if (lastOneIsNotUnderscore && (isUpperCaseAndPreviousIsLowerCase || previousIsWhitespace)) {
+                buf.append(ConstVal.UNDERLINE);
+            } else if ((Character.isDigit(previousChar) && Character.isLetter(c))) {
+                buf.append('_');
+            }
+            if ((shouldReplace(c)) && (lastOneIsNotUnderscore)) {
+                buf.append('_');
+            } else if (!Character.isWhitespace(c) && (isNotUnderscore || lastOneIsNotUnderscore)) {
+                buf.append(Character.toUpperCase(c));
+            }
+            previousChar = c;
+        }
+        if (Character.isWhitespace(previousChar)) {
+            buf.append(ConstVal.UNDERLINE);
+        }
+        return buf.toString();
+    }
+
+    private static boolean shouldReplace(char c) {
+        return (c == '.') || (c == '_') || (c == '-');
+    }
+
+
+    /**
      * 字符串驼峰转下划线格式
      *
      * @param param 需要转换的字符串

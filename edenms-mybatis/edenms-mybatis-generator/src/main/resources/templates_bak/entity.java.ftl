@@ -34,14 +34,16 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
     </#if>
 </#if>
+<#if table.convert>
+@TableName("${table.name}")
+</#if>
 <#if swagger2>
 @ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
-<#list table.annotations as anno>
-${anno};
-</#list>
 <#if superEntityClass??>
-public class ${entity} extends ${superEntityClass} {
+public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
+<#elseif activeRecord>
+public class ${entity} extends Model<${entity}> {
 <#else>
 public class ${entity} implements Serializable {
 </#if>
@@ -64,9 +66,34 @@ public class ${entity} implements Serializable {
      */
         </#if>
     </#if>
-    <#list field.annotations as fieldAnno>
-    ${fieldAnno}
-    </#list>
+    <#if field.keyFlag>
+        <#-- 主键 -->
+        <#if field.keyIdentityFlag>
+    @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
+        <#elseif idType??>
+    @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
+        <#elseif field.convert>
+    @TableId("${field.annotationColumnName}")
+        </#if>
+        <#-- 普通字段 -->
+    <#elseif field.fill??>
+    <#-- -----   存在字段填充设置   ----->
+        <#if field.convert>
+    @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
+        <#else>
+    @TableField(fill = FieldFill.${field.fill})
+        </#if>
+    <#elseif field.convert>
+    @TableField("${field.annotationColumnName}")
+    </#if>
+    <#-- 乐观锁注解 -->
+    <#if (versionFieldName!"") == field.name>
+    @Version
+    </#if>
+    <#-- 逻辑删除注解 -->
+    <#if (logicDeleteFieldName!"") == field.name>
+    @TableLogic
+    </#if>
     private ${field.propertyType} ${field.propertyName};
 </#list>
 <#------------  END 字段循环遍历  ---------->
@@ -101,7 +128,17 @@ public class ${entity} implements Serializable {
 
     </#list>
 </#if>
+<#if activeRecord>
+    @Override
+    protected Serializable pkVal() {
+    <#if keyPropertyName??>
+        return this.${keyPropertyName};
+    <#else>
+        return null;
+    </#if>
+    }
 
+</#if>
 <#if !entityLombokModel>
     @Override
     public String toString() {

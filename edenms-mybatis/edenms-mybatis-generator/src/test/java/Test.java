@@ -1,7 +1,5 @@
 import com.eden.msutils.mybatis.generator.AutoGenerator;
-import com.eden.msutils.mybatis.generator.config.DataSourceConfig;
-import com.eden.msutils.mybatis.generator.config.GlobalConfig;
-import com.eden.msutils.mybatis.generator.config.PackageConfig;
+import com.eden.msutils.mybatis.generator.config.*;
 import com.eden.msutils.mybatis.generator.config.builder.ConfigBuilder;
 import com.eden.msutils.mybatis.generator.config.po.TableInfo;
 
@@ -19,8 +17,7 @@ public class Test {
         globalConfig.setAuthor("xsm");
         globalConfig.setOpen(false);
         globalConfig.setFileOverride(true);
-        globalConfig.setSwagger2(true);
-        globalConfig.setBaseResultMap(true);
+
 
         String url = "jdbc:mysql://localhost:3306/goldcat?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8";
         String driverName = "com.mysql.cj.jdbc.Driver";
@@ -40,9 +37,15 @@ public class Test {
         packageConfig.setParent("com.eden.test");
         packageConfig.setTableModule(tableModule);
 
+        TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.onlyEnable(TemplateType.ENTITY);
+
+        StrategyConfig  strategyConfig = new StrategyConfig();
+
+
 
         AutoGenerator gen = new AutoGenerator();
-        gen.setDataSourceConfig(dataSourceConfig).setGlobalConfig(globalConfig).setPackageConfig(packageConfig).execute();
+        gen.setDataSourceConfig(dataSourceConfig).setGlobalConfig(globalConfig).setPackageConfig(packageConfig).setStrategyConfig(strategyConfig).execute();
 
 
 

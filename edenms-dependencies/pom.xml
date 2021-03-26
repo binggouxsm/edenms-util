@@ -22,7 +22,9 @@
         <mybatis.version>3.5.6</mybatis.version>
         <mybatis-spring.version>2.0.6</mybatis-spring.version>
         <mybatis.typehandlers.version>1.0.2</mybatis.typehandlers.version>
+        <tkmapper.version>2.1.5</tkmapper.version>
         <mybatisplus.version>3.4.1</mybatisplus.version>
+
         <freemarker.version>2.3.31</freemarker.version>
 
 
@@ -69,7 +71,6 @@
 
 
             <!--  持久化 Starter -->
-
 
             <!--  由于Mybatis-Plus 不支持复合主键，更加适合于 三高体系下的数据库设计模式， 放弃之换用tkmapper -->
             <!--<dependency>-->
@@ -127,6 +128,13 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring-boot-starter</artifactId>
+                <version>${tkmapper.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
@@ -181,11 +189,6 @@
 
             <!--  Log start -->
 
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -193,11 +196,6 @@
                 <version>${slf4j.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
 
 
 

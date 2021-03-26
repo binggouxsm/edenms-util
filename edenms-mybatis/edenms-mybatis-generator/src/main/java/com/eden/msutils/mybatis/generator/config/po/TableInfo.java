@@ -16,10 +16,13 @@
 package com.eden.msutils.mybatis.generator.config.po;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.*;
 
 
 import com.eden.msutils.mybatis.generator.config.*;
+import com.eden.msutils.mybatis.generator.config.annotation.IAnnotationResolver;
+import com.eden.msutils.mybatis.generator.config.annotation.TkMapperResolver;
 import com.eden.msutils.mybatis.generator.config.rules.NamingStrategy;
 import com.eden.msutils.mybatis.generator.exception.MybatisGeneratorException;
 import com.eden.msutils.mybatis.generator.utils.StringUtils;
@@ -54,6 +57,12 @@ public class TableInfo {
      */
     private List<TableField> commonFields;
     private String fieldNames;
+
+    /**
+     *  Annotation相关
+     */
+    IAnnotationResolver annotationResolver = new TkMapperResolver();
+    private List<String> annotations = new ArrayList<>();
 
 
     /**
@@ -97,6 +106,10 @@ public class TableInfo {
         return this;
     }
 
+    public String getEntityPath() {
+        return entityName.substring(0, 1).toLowerCase() + entityName.substring(1);
+    }
+
     public TableInfo setFields(List<TableField> fields) {
         this.fields = fields;
 
@@ -135,11 +148,14 @@ public class TableInfo {
         } else {
             serviceName = tmpEntityName + ConstVal.SERVICE;
         }
-        if (StringUtils.isNotBlank(globalConfig.getServiceImplName())) {
-            serviceImplName = String.format(globalConfig.getServiceImplName(), tmpEntityName);
-        } else {
-            serviceImplName = tmpEntityName + ConstVal.SERVICE_IMPL;
+        if(!strategyConfig.isDiableServiceInterface()){
+            if (StringUtils.isNotBlank(globalConfig.getServiceImplName())) {
+                serviceImplName = String.format(globalConfig.getServiceImplName(), tmpEntityName);
+            } else {
+                serviceImplName = tmpEntityName + ConstVal.SERVICE_IMPL;
+            }
         }
+
         if (StringUtils.isNotBlank(globalConfig.getControllerName())) {
             controllerName = String.format(globalConfig.getControllerName(), tmpEntityName);
         } else {
@@ -147,6 +163,7 @@ public class TableInfo {
         }
 
         checkImportPackages(globalConfig,strategyConfig);
+
     }
 
 
@@ -154,11 +171,15 @@ public class TableInfo {
         if (StringUtils.isNotBlank(strategyConfig.getSuperEntityClass())) {
             // 自定义父类
             importPackages.add(strategyConfig.getSuperEntityClass());
+        }else {
+            importPackages.add(Serializable.class.getCanonicalName());
         }
+        IAnnotationResolver resolver = strategyConfig.getAnnotationResolver();
+        resolver.resolve(this, strategyConfig);
     }
 
 
-    public void handlePackage(GlobalConfig globalConfig, PackageConfig packageConfig) {
+    public void handlePackage(GlobalConfig globalConfig, StrategyConfig strategyConfig, PackageConfig packageConfig) {
         String entityPackage = joinPackage(packageConfig.getParent(),moduleName, packageConfig.getEntity());
         String mapperPackage = joinPackage(packageConfig.getParent(),moduleName, packageConfig.getMapper());
         String xmlPackage = joinPackage(null, packageConfig.getXml(),moduleName);
@@ -170,7 +191,7 @@ public class TableInfo {
         packageInfo.put(ConstVal.MAPPER, mapperPackage);
         packageInfo.put(ConstVal.XML, xmlPackage);
         packageInfo.put(ConstVal.SERVICE, servicePackage);
-        if(!globalConfig.isDiableServiceInterface()){
+        if(!strategyConfig.isDiableServiceInterface()){
             packageInfo.put(ConstVal.SERVICE_IMPL, serviceImplPackage);
         }
         packageInfo.put(ConstVal.CONTROLLER, controllerPackage);
@@ -182,10 +203,11 @@ public class TableInfo {
         pathInfo.put(ConstVal.MAPPER_PATH, joinPath(outputPath,mapperPackage));
         pathInfo.put(ConstVal.XML_PATH, joinPath(xmlOutputPath,xmlPackage));
         pathInfo.put(ConstVal.SERVICE_PATH, joinPath(outputPath,servicePackage));
-        if(!globalConfig.isDiableServiceInterface()) {
+        if(!strategyConfig.isDiableServiceInterface()) {
             pathInfo.put(ConstVal.SERVICE_IMPL_PATH, joinPath(outputPath, serviceImplPackage));
         }
         pathInfo.put(ConstVal.CONTROLLER_PATH, joinPath(outputPath,controllerPackage));
+
 
     }
 

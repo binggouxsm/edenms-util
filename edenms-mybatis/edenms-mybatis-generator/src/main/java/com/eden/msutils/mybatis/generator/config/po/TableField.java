@@ -23,7 +23,7 @@ import com.eden.msutils.mybatis.generator.utils.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Map;
+import java.util.*;
 
 /**
  * 表字段信息
@@ -62,6 +62,12 @@ public class TableField {
      * 自定义查询字段列表
      */
     private Map<String, Object> customMap;
+    /**
+     *  Annotation相关
+     */
+    private List<String> annotations = new ArrayList<>();
+
+
 
     public TableField setConvert(boolean convert) {
         this.convert = convert;
@@ -129,6 +135,13 @@ public class TableField {
             }
         }
         return columnName;
+    }
+
+    public String getPropertyType() {
+        if (null != columnType) {
+            return columnType.getType();
+        }
+        return null;
     }
 
 }

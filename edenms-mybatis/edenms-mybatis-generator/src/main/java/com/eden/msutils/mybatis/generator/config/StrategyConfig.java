@@ -15,10 +15,14 @@
  */
 package com.eden.msutils.mybatis.generator.config;
 
+import com.eden.msutils.mybatis.generator.config.annotation.AnnotationType;
+import com.eden.msutils.mybatis.generator.config.annotation.IAnnotationResolver;
+import com.eden.msutils.mybatis.generator.config.annotation.TkMapperResolver;
 import com.eden.msutils.mybatis.generator.config.rules.NamingStrategy;
 import com.eden.msutils.mybatis.generator.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -83,15 +87,15 @@ public class StrategyConfig {
     /**
      * 自定义继承的Mapper类全称，带包名
      */
-    private String superMapperClass = ConstVal.SUPER_MAPPER_CLASS;
+    private String superMapperClass;
     /**
      * 自定义继承的Service类全称，带包名
      */
-    private String superServiceClass = ConstVal.SUPER_SERVICE_CLASS;
+    private String superServiceClass;
     /**
      * 自定义继承的ServiceImpl类全称，带包名
      */
-    private String superServiceImplClass = ConstVal.SUPER_SERVICE_IMPL_CLASS;
+    private String superServiceImplClass;
     /**
      * 自定义继承的Controller类全称，带包名
      */
@@ -107,15 +111,12 @@ public class StrategyConfig {
      * public static final String ID = "test_id";
      */
     private boolean entityColumnConstant = false;
+
     /**
-     * 【实体】是否为构建者模型（默认 false）<br>
-     * -----------------------------------<br>
-     * public User setName(String name) { this.name = name; return this; }
-     *
-     * @deprecated 3.3.2 {@link #chainModel}
+     * 开启 swagger2 模式
      */
-    @Deprecated
-    private boolean entityBuilderModel = false;
+    private boolean swagger2 = true;
+
 
     /**
      * 【实体】是否为链式模型（默认 false）<br>
@@ -127,22 +128,44 @@ public class StrategyConfig {
     private boolean chainModel = false;
 
     /**
-     * 【实体】是否为lombok模型（默认 false）<br>
+     * 【实体】是否为lombok模型（默认 true）<br>
      * <a href="https://projectlombok.org/">document</a>
      */
-    private boolean entityLombokModel = false;
+    private boolean entityLombokModel = true;
     /**
      * Boolean类型字段是否移除is前缀（默认 false）<br>
      * 比如 : 数据库字段名称 : 'is_xxx',类型为 : tinyint. 在映射实体的时候则会去掉is,在实体类中映射最终结果为 xxx
      */
     private boolean entityBooleanColumnRemoveIsPrefix = false;
+
+    /**
+     * 是否在xml中添加二级缓存配置
+     */
+    private boolean enableCache = false;
+
+    /**
+     * 开启 BaseResultMap
+     */
+    private boolean baseResultMap = true;
+
+    /**
+     * 开启 baseColumnList
+     */
+    private boolean baseColumnList = false;
+
+    /**
+     *  不生成Service 接口，直接生成Service实现类
+     */
+    private boolean diableServiceInterface = false;
+
+
     /**
      * 生成 <code>@RestController</code> 控制器
      * <pre>
      *      <code>@Controller</code> -> <code>@RestController</code>
      * </pre>
      */
-    private boolean restControllerStyle = false;
+    private boolean restControllerStyle = true;
     /**
      * 驼峰转连字符
      * <pre>
@@ -158,6 +181,19 @@ public class StrategyConfig {
      * 乐观锁属性名称
      */
     private String versionFieldName;
+
+    private AnnotationType annotationType = AnnotationType.TKMAPPER;
+
+    /**
+     *   使用哪种类型的注解
+     */
+    @Setter(AccessLevel.NONE)
+    private IAnnotationResolver annotationResolver;
+
+    public IAnnotationResolver getAnnotationResolver(){
+        // :todo 待扩展  MYBATIS_PLUS
+        return new TkMapperResolver();
+    }
 
 
 

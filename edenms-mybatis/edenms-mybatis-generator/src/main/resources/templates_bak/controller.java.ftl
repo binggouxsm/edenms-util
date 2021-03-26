@@ -25,7 +25,10 @@ import ${superControllerClassPackage};
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if table.moduleName?? && table.moduleName != "">/${table.moduleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+<#if kotlin>
+class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
+<#else>
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
@@ -33,4 +36,4 @@ public class ${table.controllerName} {
 </#if>
 
 }
-
+</#if>
