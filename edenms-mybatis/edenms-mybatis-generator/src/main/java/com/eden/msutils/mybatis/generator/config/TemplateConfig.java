@@ -20,6 +20,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 模板路径配置项
  *
@@ -45,15 +49,22 @@ public class TemplateConfig {
 
 
     /**
-     *  只启用某个模板，其他禁用
-     * @param templateType
+     *  启用某些模板，其他禁用
+     * @param enableTypes
      * @return
      */
-    public void onlyEnable(TemplateType templateType) {
-        TemplateType[] types = TemplateType.values();
-        for (TemplateType type:types){
-            if(type != templateType){
-                disable(type);
+    public void enable(TemplateType... enableTypes) {
+        TemplateType[] origin =TemplateType.values().clone();
+        for (int i = 0; i < origin.length; i++) {
+            boolean disable = true;
+            for (int j = 0; j < enableTypes.length; j++) {
+                if(origin[i].equals(enableTypes[j])){
+                    disable = false;
+                    break;
+                }
+            }
+            if(disable){
+                disable(origin[i]);
             }
         }
     }

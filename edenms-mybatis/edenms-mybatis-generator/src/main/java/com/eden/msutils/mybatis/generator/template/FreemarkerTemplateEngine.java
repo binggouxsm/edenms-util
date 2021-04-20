@@ -17,6 +17,7 @@ package com.eden.msutils.mybatis.generator.template;
 
 import com.eden.msutils.mybatis.generator.config.ConstVal;
 import com.eden.msutils.mybatis.generator.config.builder.ConfigBuilder;
+import com.eden.msutils.mybatis.generator.utils.StringUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -56,6 +57,6 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine {
 
     @Override
     public String templateFilePath(String filePath) {
-        return filePath + ".ftl";
+        return StringUtils.isBlank(filePath) ? null : filePath + ".ftl";
     }
 }

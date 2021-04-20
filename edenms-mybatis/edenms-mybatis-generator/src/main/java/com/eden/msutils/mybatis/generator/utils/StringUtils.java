@@ -276,9 +276,9 @@ public class StringUtils {
     public static String joinPath(String delimer, String... child){
         String ret = "";
         for(String tmp : child){
-            ret = isBlank(ret)? tmp : ret + delimer + tmp;
+            ret = isBlank(tmp)? ret : ret + delimer + tmp;
         }
-        return ret;
+        return ret.startsWith(delimer) ? ret.substring(delimer.length()) : ret;
     }
 
     /**

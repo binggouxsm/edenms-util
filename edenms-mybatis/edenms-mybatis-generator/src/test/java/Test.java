@@ -12,7 +12,7 @@ public class Test {
 
         GlobalConfig globalConfig = new GlobalConfig();
         String projectPath = "D:/project/goldcat";
-        globalConfig.setOutputDir(projectPath + "/src/test/java");
+        globalConfig.setOutputDir(projectPath + "/src/main/java");
         globalConfig.setXmlOutputDir(projectPath + "/src/main/resources");
         globalConfig.setAuthor("xsm");
         globalConfig.setOpen(false);
@@ -26,21 +26,24 @@ public class Test {
         DataSourceConfig dataSourceConfig = new DataSourceConfig(url,driverName,useName,password);
 
         Map<String,String> tableModule = new HashMap<>();
-        tableModule.put("account","acc");
-        tableModule.put("account_book","acc");
-        tableModule.put("record","acc");
-        tableModule.put("dict_item","sys");
-        tableModule.put("type","sys");
+        tableModule.put("account","");
+        tableModule.put("account_book","");
+        tableModule.put("record","");
+        tableModule.put("dict_item","");
+        tableModule.put("type","");
 
 
         PackageConfig packageConfig = new PackageConfig();
-        packageConfig.setParent("com.eden.test");
+        packageConfig.setParent("com.eden.finance.goldcat");
         packageConfig.setTableModule(tableModule);
 
         TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.onlyEnable(TemplateType.ENTITY);
+//        templateConfig.onlyEnable(TemplateType.ENTITY);
 
         StrategyConfig  strategyConfig = new StrategyConfig();
+        strategyConfig.setDiableServiceInterface(true);
+        strategyConfig.setChainModel(true);
+
 
 
 

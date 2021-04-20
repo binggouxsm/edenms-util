@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 </#if>
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
+<#else>
+import org.springframework.beans.factory.annotation.Autowired;
+import ${package.Service}.${table.serviceName};
 </#if>
 
 /**
@@ -25,12 +28,14 @@ import ${superControllerClassPackage};
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if table.moduleName?? && table.moduleName != "">/${table.moduleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
 public class ${table.controllerName} {
-</#if>
 
+	@Autowired
+	private ${table.serviceName} ${table.serviceName?uncap_first};
+</#if>
 }
 
